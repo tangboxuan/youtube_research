@@ -11,6 +11,17 @@ def search(response):
         })
     return result
 
+def channel(response):
+    return response['items'][0]['statistics']['subscriberCount'] 
+
+def video(response):
+    data = response['items'][0]
+    published = data['snippet']['publishedAt']
+    description = data['snippet']['description']
+    views = data['statistics']['viewCount']
+    output = {'published':published, 'description':description, 'views':views}
+    return output
+
 def categories(response):
     result = []
     for item in response['items']:

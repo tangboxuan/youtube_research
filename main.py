@@ -1,8 +1,9 @@
 import fetch
 import parser
 from writer import write
+from datetime import datetime
 
-def search(query):
+def search(query, time):
     searchResponse = fetch.search(query+" review")
     searchOutput = parser.search(searchResponse)
 
@@ -20,6 +21,12 @@ def search(query):
             video[key] = videoParsed[key]
         videoOutput.append(video)
     
-    write(query, videoOutput)
+    write(time, query, videoOutput)
 
-search('surface laptop 4')
+with open('input.txt', 'r') as f:
+    lines = f.readlines()
+now = datetime.now()
+time = now.strftime("%m-%d_%H:%M:%S")
+
+for line in lines:
+    search(line.strip(), time)

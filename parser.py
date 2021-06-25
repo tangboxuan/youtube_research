@@ -12,14 +12,19 @@ def search(response):
     return result
 
 def channel(response):
-    return response['items'][0]['statistics']['subscriberCount'] 
+    stats = response['items'][0]['statistics']
+    if stats['hiddenSubscriberCount']:
+        return 'hidden'
+    else:
+        return response['items'][0]['statistics']['subscriberCount'] 
 
 def video(response):
     data = response['items'][0]
     published = data['snippet']['publishedAt']
     description = data['snippet']['description']
+    prettyDescription = description.replace('\n', ' ').replace('\r', '')
     views = data['statistics']['viewCount']
-    output = {'published':published, 'description':description, 'views':views}
+    output = {'views':views, 'published':published, 'description':prettyDescription}
     return output
 
 def categories(response):

@@ -4,7 +4,7 @@ from googleapiclient.discovery import build
 key = os.getenv('API_KEY')
 fetch = build('youtube', 'v3', developerKey=key)
 
-searchVideos = 5
+searchVideos = 50
 
 def video(id):
     request = fetch.videos().list(

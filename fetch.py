@@ -4,11 +4,9 @@ from googleapiclient.discovery import build
 key = os.getenv('API_KEY')
 fetch = build('youtube', 'v3', developerKey=key)
 
-searchVideos = 50
-
 def video(id):
     request = fetch.videos().list(
-        part=['snippet','statistics'],
+        part=['contentDetails','snippet','statistics'],
         id=id
     )
     return request.execute()
@@ -32,10 +30,11 @@ def channel(cid):
     )
     return request.execute()
 
-def search(query):
+def search(query, page):
     request = fetch.search().list(
         part='snippet',
-        maxResults=searchVideos,
+        maxResults=50,
+        pageToken=page,
         q=query,
         relevanceLanguage='en',
         type='video'

@@ -1,30 +1,64 @@
 import html
+import emoji
+from datetime import datetime
 
 def search(response):
     result = []
     for item in response['items']:
         result.append({
-            'title':html.unescape(item['snippet']['title']),
+            'title':html.unescape(emoji.demojize(item['snippet']['title'])),
             'channel':item['snippet']['channelTitle'],
+            'link':"https://www.youtube.com/watch?v="+item['id']['videoId'],
             'id':item['id']['videoId'],
             'cid':item['snippet']['channelId'],
         })
-    return result
+    nextPage = response['nextPageToken']
+    return {"result":result, "nextPage": nextPage}
 
 def channel(response):
     stats = response['items'][0]['statistics']
     if stats['hiddenSubscriberCount']:
-        return 'hidden'
+        subscriber = 'hidden'
     else:
-        return response['items'][0]['statistics']['subscriberCount'] 
+        subscriber = stats['subscriberCount']
+    videos = stats['videoCount']
+    try:
+        comments = stats['commentCount']
+    except KeyError:
+        comments = 'hidden'
+    views = stats['viewCount']
+    return {
+        "subscribers":subscriber,
+        "channel_videos":videos,
+        "channel_views":views,
+        "channel_comments":comments
+    }
 
 def video(response):
     data = response['items'][0]
-    published = data['snippet']['publishedAt']
+    published = datetime.strptime(data['snippet']['publishedAt'][0:10], "%Y-%m-%d")
     description = data['snippet']['description']
     prettyDescription = description.replace('\n', ' ').replace('\r', '')
     views = data['statistics']['viewCount']
-    output = {'views':views, 'published':published, 'description':prettyDescription}
+    try:
+        likes = data['statistics']['likeCount']
+    except KeyError:
+        likes = 'hidden'
+    try:
+        dislikes = data['statistics']['dislikeCount']
+    except KeyError:
+        dislikes = 'hidden'
+    comments = data['statistics']['commentCount']
+    duration = data['contentDetails']['duration'][2:]
+    output = {
+        'views':views,
+        'duration':duration,
+        'likes':likes,
+        'dislikes':dislikes,
+        'comments':comments,
+        'published':published, 
+        'description':prettyDescription,
+    }
     return output
 
 def categories(response):

@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 google-api-python-client = "*"
 emoji = "*"
+googletrans = "==3.1.0a0"
 
 [dev-packages]
 

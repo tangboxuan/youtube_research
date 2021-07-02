@@ -37,7 +37,13 @@ def search(query, time, dateFrom, dateTo):
         
         print(f"Writing data for {query} page {i+1}")
 
+        englishOutput = []
+        for video in videoOutput:
+            if video['title'].isascii():
+                englishOutput.append(video)
+
         write(time, query, videoOutput, i)
+        write(time, query + "-EN", englishOutput, i)
 
 now = datetime.now()
 time = now.strftime("%m-%d_%H:%M:%S")

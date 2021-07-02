@@ -22,10 +22,6 @@ def channel(response):
     else:
         subscriber = stats['subscriberCount']
     videos = stats['videoCount']
-    try:
-        comments = stats['commentCount']
-    except KeyError:
-        comments = 'hidden'
     views = stats['viewCount']
     return {
         "subscribers":subscriber,

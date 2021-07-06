@@ -27,7 +27,6 @@ def channel(response):
         "subscribers":subscriber,
         "channel_videos":videos,
         "channel_views":views,
-        "channel_comments":comments
     }
 
 def video(response):

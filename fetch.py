@@ -11,12 +11,12 @@ def video(id):
     )
     return request.execute()
 
-def caption(id):
-    request = fetch.captions().list(
-        part='id',
-        videoId=id
-    )
-    return request.execute()
+# def caption(id):
+#     request = fetch.captions().list(
+#         part='id',
+#         videoId=id
+#     )
+#     return request.execute()
 
 # def download(captionid):
 #     request = fetch.captions().download(id=captionid)

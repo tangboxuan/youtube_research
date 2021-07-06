@@ -3,8 +3,9 @@ import parser
 from writer import write
 from datetime import datetime
 from csv import reader
+from download import download
 
-PAGES = 2
+PAGES = 1
 
 def search(query, time, dateFrom, dateTo):
     nextPage = ""
@@ -16,6 +17,7 @@ def search(query, time, dateFrom, dateTo):
         nextPage = searchOutput["nextPage"]
 
         channelOutput = []
+        links = []
         for video in searchOutput["result"]:
             channelResponse = fetch.channel(video['cid'])
             channelParsed = parser.channel(channelResponse)
@@ -23,6 +25,7 @@ def search(query, time, dateFrom, dateTo):
             for key in channelParsed.keys():
                 video[key] = channelParsed[key]
             channelOutput.append(video)
+            links.append(video['link'])
 
         videoOutput = []
         for video in channelOutput:
@@ -41,9 +44,10 @@ def search(query, time, dateFrom, dateTo):
         for video in videoOutput:
             if video['title'].isascii():
                 englishOutput.append(video)
-
-        write(time, query, videoOutput, i)
-        write(time, query + "-EN", englishOutput, i)
+        name = '_'.join(query.split())
+        write(time, name, videoOutput, i, False)
+        write(time, name, englishOutput, i, True)
+        download(time, name, links)
 
 now = datetime.now()
 time = now.strftime("%m-%d_%H:%M:%S")

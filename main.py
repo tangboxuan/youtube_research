@@ -3,7 +3,6 @@ import parser
 from writer import write
 from datetime import datetime
 from csv import reader
-from download import download
 
 PAGES = 1
 
@@ -47,7 +46,6 @@ def search(query, time, dateFrom, dateTo):
         name = '_'.join(query.split())
         write(time, name, videoOutput, i, False)
         write(time, name, englishOutput, i, True)
-        download(time, name, links)
 
 now = datetime.now()
 time = now.strftime("%m-%d_%H:%M:%S")

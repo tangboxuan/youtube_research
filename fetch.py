@@ -33,7 +33,7 @@ def channel(cid):
 def search(query, page):
     request = fetch.search().list(
         part='snippet',
-        maxResults=1,
+        maxResults=50,
         pageToken=page,
         q=query,
         relevanceLanguage='en',

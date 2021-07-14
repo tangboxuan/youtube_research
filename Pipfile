@@ -9,6 +9,8 @@ emoji = "*"
 googletrans = "==3.1.0a0"
 youtube-dl = "*"
 inquirer = "*"
+webvtt-py = "*"
+vtt-to-srt3 = "*"
 
 [dev-packages]
 

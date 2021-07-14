@@ -33,8 +33,7 @@ python main.py
 ```
 The csv files for each product can be found in the /output folder sorted into the search time.  
 
-4. To download the YouTube video and subtitle/captions, run download.py using command
+4. To download the YouTube video and subtitle/captions, edit download.py and replace the variables "foldername", "productname" and "filename" with the desired ones. Then, run download.py using command
 ```
 python download.py
 ```
-Follow the on-screen prompts to choose the CSV file to download (all links in the CSV file will be downloaded). The files will be downloaded to the same folder as the CSV file.

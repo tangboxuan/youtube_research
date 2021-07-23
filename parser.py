@@ -2,18 +2,20 @@ import html
 import emoji
 from datetime import datetime
 
-def search(response):
+def search(response, sn):
     result = []
     for item in response['items']:
         result.append({
+            'sn':sn,
             'title':html.unescape(emoji.demojize(item['snippet']['title'])),
             'channel':item['snippet']['channelTitle'],
             'link':"https://www.youtube.com/watch?v="+item['id']['videoId'],
             'id':item['id']['videoId'],
             'cid':item['snippet']['channelId'],
         })
+        sn = sn + 1
     nextPage = response['nextPageToken']
-    return {"result":result, "nextPage": nextPage}
+    return result, nextPage, sn
 
 def channel(response):
     stats = response['items'][0]['statistics']

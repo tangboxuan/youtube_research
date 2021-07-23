@@ -8,16 +8,16 @@ PAGES = 1
 
 def search(query, time, dateFrom, dateTo):
     nextPage = ""
+    sn = 1
     for i in range(PAGES):
         print(f"Obtaining data for {query} page {i+1}")
 
         searchResponse = fetch.search(query+" review", nextPage)
-        searchOutput = parser.search(searchResponse)
-        nextPage = searchOutput["nextPage"]
+        searchOutput, nextPage, sn = parser.search(searchResponse, sn)
 
         channelOutput = []
         links = []
-        for video in searchOutput["result"]:
+        for video in searchOutput:
             channelResponse = fetch.channel(video['cid'])
             channelParsed = parser.channel(channelResponse)
             del video['cid']
